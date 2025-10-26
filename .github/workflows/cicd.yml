@@ -32,15 +32,3 @@ jobs:
             ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - name: Deploy via SSH
-        if: ${{ secrets.SSH_HOST != '' && secrets.SSH_USER != '' && secrets.SSH_KEY != '' }}
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
-            sed -i 's#ghcr.io/.*/.*:.*#ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:latest#g' ~/app/compose.yml
-            docker compose -f ~/app/compose.yml pull
-            docker compose -f ~/app/compose.yml up -d
