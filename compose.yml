@@ -1,6 +1,6 @@
-﻿services:
+services:
   api:
-    image: ghcr.io/OWNER/REPO:latest
+    image: ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:latest
     restart: unless-stopped
     ports:
       - "80:8000"

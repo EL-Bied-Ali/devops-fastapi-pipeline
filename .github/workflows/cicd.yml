@@ -1,4 +1,4 @@
-﻿name: ci-cd
+name: ci-cd
 on:
   push:
     branches: [ main ]
@@ -24,8 +24,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/OWNER/REPO:latest
-            ghcr.io/OWNER/REPO:${{ github.sha }}
+            ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:latest
+            ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:${{ github.sha }}
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -34,6 +34,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
-            sed -i 's#ghcr.io/.*/.*:.*#ghcr.io/OWNER/REPO:latest#g' ~/app/compose.yml
+            sed -i 's#ghcr.io/.*/.*:.*#ghcr.io/EL-Bied-Ali/devops-fastapi-pipeline:latest#g' ~/app/compose.yml
             docker compose -f ~/app/compose.yml pull
             docker compose -f ~/app/compose.yml up -d
